@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const runRoutes = require("./routes/runRoutes");
-const aiRoutes = require("./routes/aiRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 const app = express();
@@ -24,11 +23,10 @@ mongoose
     console.error("MongoDB connection error:", err);
   });
 
-// Register routes
-// ...
-app.use("/Users", userRoutes);
-// app.use("/runs", runRoutes);
-// app.use("/ai", aiRoutes);
+// Mount routes
+
+app.use("/users", userRoutes);
+app.use("/runs", runRoutes);
 
 // Start server
 const PORT = process.env.PORT || 3000;
