@@ -7,6 +7,7 @@ const User = require("../models/userModel");
     router.post("/start", async (req, res) => {
     try {
         const { userId } = req.body;
+        if (!userId) return res.status(404).json({ error: "No userId inputed" });
         const newRun = new Run({ userId });
         await newRun.save();
         return res.json({ message: "Run started", runId: newRun._id });
@@ -32,10 +33,9 @@ const User = require("../models/userModel");
     // }
     // });
 
-    router.post("/finish/:runId", async (req, res) => {
+    router.post("/finish/", async (req, res) => {
         try {
-          const { runId } = req.params;
-          const { totalTime, distance } = req.body;
+          const { runId, totalTime, distance } = req.body;
       
           const run = await Run.findById(runId);
           if (!run) return res.status(404).json({ error: "Run not found" });
@@ -61,16 +61,16 @@ const User = require("../models/userModel");
         }
       });
 
-      router.get("/ghost/:userId", async (req, res) => {
+      router.get("/ghost", async (req, res) => {
         try {
-          const { userId } = req.params;
+          const { userId } = req.body;
           const user = await User.findById(userId);
           if (!user) {
             return res.status(404).json({ error: "User not found" });
           }
       
           // Return the user’s single bestTime, or null if it's undefined
-          const bestTime = user.bestTime || null;
+          const bestTime = user.bestTimes;
           return res.json({ ghostTime: bestTime });
         } catch (err) {
           console.error(err);
