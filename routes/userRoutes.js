@@ -1,4 +1,3 @@
-// routes/userRoutes.js
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
@@ -10,8 +9,8 @@ router.post("/", async (req, res) => {
     // Create a new user document
     const newUser = new User({
       username,
-      email
-       ,bestTimes // e.g. {"5": 1600} meaning best 5k in 1600s (26:40)
+      email,
+      bestTimes
     });
     await newUser.save();
     
